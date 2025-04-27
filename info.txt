@@ -1,0 +1,97 @@
+--Node Ubuntu
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs
+node -v
+npm -v
+
+--Node NVM
+nvm install v16.20.2
+nvm use v16.20.2
+node -v  # Verify the Node.js version
+
+git clone https://github.com/CesarChaMal/ollama-webui.git
+mv ollama-webui/* .
+
+cp -RPp example.env .env
+
+OLD_URL="http://localhost:11434"
+NEW_URL="https://009e-35-197-101-111.ngrok-free.app"
+
+NEW_URL="http://localhost:11434"
+OLD_URL="https://009e-35-197-101-111.ngrok-free.app"
+
+sed -i "s|${OLD_URL}|${NEW_URL}|g" .env
+cat .env
+
+
+------------------------------------------------------
+export OLLAMA_API_BASE_URL='http://localhost:11434/api'
+export OPENAI_API_BASE_URL='https://api.openai.com/v1'
+export OPENAI_API_KEY=''
+export NGROK_AUTHTOKEN=''
+
+---------------------------------
+#!/usr/bin/env bash
+
+# Export env vars
+export $(grep -v '^#' .env | xargs)
+
+./setenv.sh
+
+echo OLLAMA_API_BASE_URL
+echo OPENAI_API_BASE_URL
+echo OPENAI_API_KEY
+echo NGROK_AUTHTOKEN
+
+--------------------------------------------
+pip install python-dotenv
+from dotenv import load_dotenv
+
+load_dotenv()  # This loads the environment variables from .env
+
+# Now you can access the environment variables using os.environ
+import os
+
+ollama_api_base_url = os.environ.get("OLLAMA_API_BASE_URL")
+openai_api_base_url = os.environ.get("OPENAI_API_BASE_URL")
+--------------------------------------------
+
+
+npm install vite
+npm install
+npm run build
+
+pip install uvicorn
+pip install --ignore-installed blinker
+pip install kaleido
+pip install openai
+pip install cohere
+pip install tiktoken
+
+pip install -r backend/requirements.txt -U
+#./backend/start.sh
+#uvicorn backend.main:app --reload --host 0.0.0.0 --port 8080 --forwarded-allow-ips '*'
+#python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8080 --forwarded-allow-ips '*'
+python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8080
+
+
+
+from uvicorn import run
+
+if __name__ == "__main__":
+    run("backend.main:app", host="0.0.0.0", port=8080, reload=True)
+
+
+docker ps -a
+docker rm -f $(docker ps -a |  grep ollama | awk '{print $1}')
+docker rm -f $(docker ps -a |  grep my-node-app | awk '{print $1}')
+
+docker compose up -d --build
+docker compose -f docker-compose.yaml -f docker-compose.gpu.yaml up -d --build
+docker compose -f docker-compose.yaml -f docker-compose.api.yaml up -d --build
+
+./run-compose.sh
+./run-compose.sh --enable-gpu
+./run-compose.sh --enable-gpu --build
+
+
